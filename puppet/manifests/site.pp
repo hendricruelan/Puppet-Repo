@@ -1,24 +1,18 @@
-# Public: Install uTorrent.app into /Applications.
-#
-# Examples
-#
-#   include utorrent
-class utorrent {
-  package { 'utorrent':
-    provider => 'appdmg_eula',
-    source   => 'http://download-new.utorrent.com/endpoint/utmac/os/osx/track/stable/uTorrent.pkg'
-  }
+node /^zk/ {
+	class { 'zookeeper':
+	  cdhver               => '5',
+          packages             => ['mesosphere-zookeeper.x86_64'],
+	  service_name         => 'zookeeper',
+          manage_service_file  => 'systemd',
+	  repo                 =>  {
+	    name  => 'mlmesos',
+	    url   => 'http://repos.mesosphere.io/el/7/$basearch/',
+	    descr => 'mlmesosphere'
+	  }
+	}
 }
 
-node default {
-  class { 'pxelinux':
-      ensure   => present,
-      source   => 'puppet:///modules/pxelinux/viridis-default',
-      root_dir => '/srv/tftp'
-  }
-}
-
-node 'db.puppetlabs.vm' {
+node /^ctl/ {
   # Configure mysql
   class { 'mysql::server':
     root_password => '8ZcJZFHsvo7fINZcAvi0',
