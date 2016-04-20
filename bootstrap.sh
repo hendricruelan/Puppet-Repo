@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 set -x
+cd /puppet
+/usr/local/bin/librarian-puppet update
 exit 0
 
 apt-get update

@@ -1,3 +1,4 @@
+myvar: "test"
 zookeeper::id: 2
 zookeeper::client_port: 2181
 zookeeper::datastore: '/var/lib/zookeeper'
