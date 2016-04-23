@@ -11,7 +11,20 @@ node /^zk/ {
 	  }
 	}
         class { 'mesos':
+	  zookeeper => [ 'zk.csw.vm' ],
         }
+      firewall { '100 allow mesos-master access':
+	      dport   => 5050,
+	      proto  => tcp,
+	      action => accept,
+      }
+        class { 'mesos::master':
+            work_dir => '/var/lib/mesos',
+              options => {
+		    quorum   => 1
+	      }
+        }
+
 }
 
 node /^ctl/ {
