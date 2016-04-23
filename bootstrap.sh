@@ -2,7 +2,7 @@
 set -e
 set -x
 cd /puppet
-[ -e Puppetfile.lock ] || /usr/local/bin/librarian-puppet update
+[ Puppetfile -nt Puppetfile.lock ] && /usr/local/bin/librarian-puppet update
 exit 0
 
 apt-get update

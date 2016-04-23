@@ -5,3 +5,4 @@ forge "https://forgeapi.puppetlabs.com"
 
 
 mod 'deric-zookeeper'
+mod 'deric-mesos'

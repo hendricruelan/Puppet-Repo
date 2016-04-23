@@ -32,16 +32,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "zk" do |zk|
-    # zk.customize ["modifyvm", :id, "--memory", "4096", "--cpus", "8", "--ioapic", "on", "--name", "zk.puppetlabs.vm"]
+    # zk.customize ["modifyvm", :id, "--memory", "4096", "--cpus", "8", "--ioapic", "on", "--name", "zk.csw.vm"]
     zk.vm.network "private_network", ip: "192.168.56.101", :adapter => 2
-    zk.vm.host_name = "zk.puppetlabs.vm"
+    zk.vm.host_name = "zk.csw.vm"
     zk.vm.box = "my7"
   end
 
 #   config.vm.define "ctl" do |ctl|
-#     # ctl.customize ["modifyvm", :id, "--memory", "4096", "--cpus", "8", "--ioapic", "on", "--name", "ctl.puppetlabs.vm"]
+#     # ctl.customize ["modifyvm", :id, "--memory", "4096", "--cpus", "8", "--ioapic", "on", "--name", "ctl.csw.vm"]
 #     ctl.vm.network "private_network", ip: "192.168.56.102", :adapter => 2
-#     ctl.vm.host_name = "ctl.puppetlabs.vm"
+#     ctl.vm.host_name = "ctl.csw.vm"
 #     ctl.vm.box = "my7"
 #   end
 

@@ -10,6 +10,8 @@ node /^zk/ {
 	    descr => 'mlmesosphere'
 	  }
 	}
+        class { 'mesos':
+        }
 }
 
 node /^ctl/ {
