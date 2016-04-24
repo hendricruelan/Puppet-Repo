@@ -6,4 +6,5 @@ forge "https://forgeapi.puppetlabs.com"
 
 mod 'deric-zookeeper'
 mod 'deric-mesos'
+mod 'pennycoders-marathon'
 mod 'puppetlabs-firewall'

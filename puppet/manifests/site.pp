@@ -14,7 +14,7 @@ node /^zk/ {
 	  zookeeper => [ 'zk.csw.vm' ],
         }
       firewall { '100 allow mesos-master access':
-	      dport   => 5050,
+	      dport   => [ 8080,5050 ],
 	      proto  => tcp,
 	      action => accept,
       }
@@ -24,7 +24,15 @@ node /^zk/ {
 		    quorum   => 1
 	      }
         }
-
+       class { 'marathon':
+	    manage_firewall => true,
+	    service_name    => 'marathon',
+	    manage_user     => true,
+	    user            => 'root',
+            options         => {
+              master => 'zk.csw.vm:2181',
+            },
+       }
 }
 
 node /^ctl/ {
