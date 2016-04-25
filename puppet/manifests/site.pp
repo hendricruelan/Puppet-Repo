@@ -36,9 +36,26 @@ node /^zk/ {
 }
 
 node /^ctl/ {
-  # Configure mysql
-  class { 'mysql::server':
-    root_password => '8ZcJZFHsvo7fINZcAvi0',
+  class { 'mesos':
+    zookeeper => [ 'zk.csw.vm' ],
   }
-  # include mysql::php
+  class { 'mesos::slave':
+    zookeeper => ['192.168.1.1:2181', '192.168.1.2:2181', '192.168.1.3:2181'],
+    attributes => {
+      'env' => 'production',
+    },
+    resources => {
+      'ports' => '[10000-65535]'
+    },
   }
+}
+
+node /^puppet/ {
+  class { 'puppetmaster':
+  }
+  firewall { '100 allow puppet-master access':
+    dport   => [ 8080,5050 ],
+    proto  => tcp,
+    action => accept,
+  }
+}
