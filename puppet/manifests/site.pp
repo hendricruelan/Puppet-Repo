@@ -33,6 +33,8 @@ node /^zk/ {
       master => 'zk.csw.vm:2181',
     },
   }
+  class { 'docker':
+  }
 }
 
 node /^ctl/ {
