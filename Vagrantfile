@@ -11,6 +11,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "my7"
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :machine
+  end
   config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/wily/current/wily-server-cloudimg-amd64-vagrant-disk1.box"
   config.vm.provision :shell, :path => "bootstrap.sh"
   config.vm.synced_folder "puppet", "/puppet"
@@ -40,11 +43,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  (1..3).each do |i|
-    config.vm.define "ctl#{i}" do |ctl|
-      ctl.vm.network "private_network", ip: "192.168.56.11#{i}", :adapter => 2
-      ctl.vm.host_name = "ctl#{i}.csw.vm"
-    end
-  end
+#   (1..3).each do |i|
+#     config.vm.define "ctl#{i}" do |ctl|
+#       ctl.vm.network "private_network", ip: "192.168.56.11#{i}", :adapter => 2
+#       ctl.vm.host_name = "ctl#{i}.csw.vm"
+#     end
+#   end
 
 end

@@ -1,9 +1,22 @@
 node /^zk/ {
+  host { 'zk1.csw.vm':
+    ip           => '192.168.56.101',
+    host_aliases => 'zk1',
+  }
+  host { 'zk2.csw.vm':
+    ip           => '192.168.56.102',
+    host_aliases => 'zk2',
+  }
+  host { 'zk3.csw.vm':
+    ip           => '192.168.56.103',
+    host_aliases => 'zk3',
+  }
   class { 'zookeeper':
     cdhver               => '5',
     packages             => ['mesosphere-zookeeper.x86_64'],
     service_name         => 'zookeeper',
     manage_service_file  => 'systemd',
+    servers              => ['192.168.56.101', '192.168.56.102', '192.168.56.103'],
     repo                 =>  {
       name  => 'mlmesos',
       url   => 'http://repos.mesosphere.io/el/7/$basearch/',
@@ -14,6 +27,7 @@ node /^zk/ {
     zookeeper => [ 'zk.csw.vm' ],
   }
   firewall { '100 allow mesos-master access':
+    ensure  => 'absent',
     dport   => [ 8080,5050 ],
     proto  => tcp,
     action => accept,
