@@ -21,7 +21,7 @@ node /^zk/ {
   class { 'mesos::master':
     work_dir => '/var/lib/mesos',
     options => {
-      quorum   => 1
+      quorum   => 2
     }
   }
   class { 'marathon':
@@ -30,7 +30,7 @@ node /^zk/ {
     manage_user     => true,
     user            => 'root',
     options         => {
-      master => 'zk.csw.vm:2181',
+      master => '192.168.56.101:2181,192.168.56.102:2181,192.168.56.103:2181',
     },
   }
   class { 'docker':
@@ -39,10 +39,11 @@ node /^zk/ {
 
 node /^ctl/ {
   class { 'mesos':
+    repo => 'mesosphere',
     zookeeper => [ 'zk.csw.vm' ],
   }
   class { 'mesos::slave':
-    zookeeper => ['192.168.1.1:2181', '192.168.1.2:2181', '192.168.1.3:2181'],
+    zookeeper => ['192.168.56.101:2181', '192.168.56.102:2181', '192.168.56.103:2181'],
     attributes => {
       'env' => 'production',
     },
