@@ -1,0 +1,1 @@
+puppet apply --verbose --modulepath /vagrant/puppet/modules/:/etc/puppet/modules --hiera_config=/vagrant/puppet/hiera-config.yaml --detailed-exitcodes --manifestdir /vagrant/puppet/manifests/ /vagrant/puppet/manifests/site.pp

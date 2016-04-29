@@ -11,6 +11,18 @@ node /^zk/ {
     ip           => '192.168.56.103',
     host_aliases => 'zk3',
   }
+  host { 'ctl1.csw.vm':
+    ip           => '192.168.56.101',
+    host_aliases => 'ctl1',
+  }
+  host { 'ctl2.csw.vm':
+    ip           => '192.168.56.102',
+    host_aliases => 'ctl2',
+  }
+  host { 'ctl3.csw.vm':
+    ip           => '192.168.56.103',
+    host_aliases => 'ctl3',
+  }
   class { 'zookeeper':
     cdhver               => '5',
     packages             => ['mesosphere-zookeeper.x86_64'],
@@ -27,7 +39,7 @@ node /^zk/ {
     zookeeper => [ 'zk1.csw.vm', 'zk2.csw.vm', 'zk3.csw.vm' ],
   }
   firewall { '100 allow mesos-master access':
-    dport   => [ 8080,5050, 2181, 2888, 3888 ],
+    dport   => [ 8080, 5050, 5051, 2181, 2888, 3888 ],
     proto  => tcp,
     action => accept,
   }
@@ -38,12 +50,12 @@ node /^zk/ {
     }
   }
   class { 'marathon':
-    manage_firewall => true,
     service_name    => 'marathon',
     manage_user     => true,
     user            => 'root',
     options         => {
-      master => '192.168.56.101:2181,192.168.56.102:2181,192.168.56.103:2181',
+      master => 'zk://zk1.csw.vm:2181,zk2.csw.vm:2181,zk3.csw.vm:2181/mesos',
+      zk     => 'zk://zk1.csw.vm:2181,zk2.csw.vm:2181,zk3.csw.vm:2181/marathon',
     },
   }
   class { 'docker':
@@ -53,7 +65,14 @@ node /^zk/ {
 node /^ctl/ {
   class { 'mesos':
     repo => 'mesosphere',
-    zookeeper => [ 'zk.csw.vm' ],
+    zookeeper => [ 'zk1.csw.vm', 'zk2.csw.vm', 'zk3.csw.vm' ],
+  }
+  firewall { '100 allow mesos-slave access':
+    dport   => [ 8080, 5050, 5051, 2181, 2888, 3888 ],
+    proto  => tcp,
+    action => accept,
+  }
+  class { 'docker':
   }
   class { 'mesos::slave':
     zookeeper => ['192.168.56.101:2181', '192.168.56.102:2181', '192.168.56.103:2181'],
@@ -63,6 +82,12 @@ node /^ctl/ {
     resources => {
       'ports' => '[10000-65535]'
     },
+    options   => {
+      'isolation'      => 'cgroups/cpu,cgroups/mem',
+      'containerizers' => 'docker,mesos',
+      'hostname'       => $::fqdn,
+      'ip'             => $::ipaddress_enp0s8,
+    }
   }
 }
 
