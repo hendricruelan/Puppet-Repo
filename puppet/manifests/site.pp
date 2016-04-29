@@ -24,11 +24,10 @@ node /^zk/ {
     }
   }
   class { 'mesos':
-    zookeeper => [ 'zk.csw.vm' ],
+    zookeeper => [ 'zk1.csw.vm', 'zk2.csw.vm', 'zk3.csw.vm' ],
   }
   firewall { '100 allow mesos-master access':
-    ensure  => 'absent',
-    dport   => [ 8080,5050 ],
+    dport   => [ 8080,5050, 2181, 2888, 3888 ],
     proto  => tcp,
     action => accept,
   }
