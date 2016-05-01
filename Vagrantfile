@@ -10,7 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "my7"
+  config.vm.box = "centos-7-1-x64-virtualbox.box"
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.scope = :box
   end

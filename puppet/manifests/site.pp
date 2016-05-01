@@ -1,4 +1,19 @@
 node /^zk/ {
+  # apparently an issue with the change to 'firewalld' but
+  # puppet uses iptables.
+  if $::osfamily == "redhat" and $::operatingsystemmajrelease == 7 {
+    ensure_packages("iptables-services",{'ensure' => "latest"})
+    Package["iptables-services"] -> Firewall <| |>
+    service { "firewalld":
+      enable => false,
+      ensure => stopped,
+    }
+    service { "iptables":
+      enable => true,
+      ensure => running,
+    }
+  }
+
   host { 'zk1.csw.vm':
     ip           => '192.168.56.101',
     host_aliases => 'zk1',
@@ -38,11 +53,6 @@ node /^zk/ {
   class { 'mesos':
     zookeeper => [ 'zk1.csw.vm', 'zk2.csw.vm', 'zk3.csw.vm' ],
   }
-  firewall { '100 allow mesos-master access':
-    dport   => [ 8080, 5050, 5051, 2181, 2888, 3888 ],
-    proto  => tcp,
-    action => accept,
-  }
   class { 'mesos::master':
     work_dir => '/var/lib/mesos',
     options => {
@@ -50,6 +60,8 @@ node /^zk/ {
     }
   }
   class { 'marathon':
+    notify  => Firewall["100 allow mesos-master access"],
+    manage_firewall => false,
     service_name    => 'marathon',
     manage_user     => true,
     user            => 'root',
@@ -60,18 +72,35 @@ node /^zk/ {
   }
   class { 'docker':
   }
+  firewall { '100 allow mesos-master access':
+    dport   => [ 8080, 5050, 5051, 2181, 2888, 3888, 4040 ],
+    proto  => tcp,
+    action => accept,
+  }
 }
 
 node /^ctl/ {
+  if $::osfamily == "redhat" and $::operatingsystemmajrelease == 7 {
+    ensure_packages("iptables-services",{'ensure' => "latest"})
+    Package["iptables-services"] -> Firewall <| |>
+    service { "firewalld":
+      enable => false,
+      ensure => stopped,
+    }
+    service { "iptables":
+      enable => false,
+      ensure => stopped,
+    }
+  }
   class { 'mesos':
     repo => 'mesosphere',
     zookeeper => [ 'zk1.csw.vm', 'zk2.csw.vm', 'zk3.csw.vm' ],
   }
-  firewall { '100 allow mesos-slave access':
-    dport   => [ 8080, 5050, 5051, 2181, 2888, 3888 ],
-    proto  => tcp,
-    action => accept,
-  }
+  #  firewall { '100 allow mesos-slave access':
+  #    dport   => [ 8080, 5050, 5051, 2181, 2888, 3888 ],
+  #    proto  => tcp,
+  #    action => accept,
+  #  }
   class { 'docker':
   }
   class { 'mesos::slave':
