@@ -44,7 +44,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   (1..3).each do |i|
-    config.vm.define "ctl#{i}" do |ctl|
+    config.vm.define "ctl#{i}", autostart: false do |ctl|
       ctl.vm.network "private_network", ip: "192.168.56.11#{i}", :adapter => 2
       ctl.vm.host_name = "ctl#{i}.csw.vm"
     end
