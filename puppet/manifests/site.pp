@@ -27,15 +27,15 @@ node /^zk/ {
     host_aliases => 'zk3',
   }
   host { 'ctl1.csw.vm':
-    ip           => '192.168.56.101',
+    ip           => '192.168.56.111',
     host_aliases => 'ctl1',
   }
   host { 'ctl2.csw.vm':
-    ip           => '192.168.56.102',
+    ip           => '192.168.56.112',
     host_aliases => 'ctl2',
   }
   host { 'ctl3.csw.vm':
-    ip           => '192.168.56.103',
+    ip           => '192.168.56.113',
     host_aliases => 'ctl3',
   }
   class { 'zookeeper':
