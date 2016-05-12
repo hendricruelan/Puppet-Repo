@@ -1,19 +1,24 @@
 {
   "id": "bridged-webapp",
-  "cmd": "python3 -m http.server 8080",
   "cpus": 0.5,
   "mem": 64.0,
   "instances": 2,
   "container": {
     "type": "DOCKER",
     "docker": {
-      "image": "python:3",
+      "image": "httpd:latest",
       "network": "BRIDGE",
       "portMappings": [
-        { "containerPort": 8080, "hostPort": 0, "servicePort": 9000, "protocol": "tcp" },
-        { "containerPort": 161, "hostPort": 0, "protocol": "udp"}
+        { "containerPort": 80, "hostPort": 0, "servicePort": 0, "protocol": "tcp" }
       ]
-    }
+    },
+    "volumes": [
+      {
+        "containerPath": "/usr/local/apache2/htdocs/",
+        "hostPath": "/vagrant",
+        "mode": "RO"
+      }
+    ]
   },
   "healthChecks": [
   {
