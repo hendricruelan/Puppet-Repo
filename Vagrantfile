@@ -18,11 +18,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :shell, :path => "bootstrap.sh"
   config.vm.synced_folder "puppet", "/puppet"
   config.vm.provision :puppet do |puppet|
-    puppet.manifests_path = "puppet/manifests"
-    puppet.module_path    = "puppet/modules"
+    puppet.environment_path = "./puppet/environments"
+    puppet.environment = "development"
     puppet.hiera_config_path    = "puppet/hiera-config.yaml"
     puppet.working_directory = "/tmp/vagrant-puppet"
-    puppet.manifest_file  = "site.pp"
     puppet.options = "--verbose"
     # puppet.options = [ "--verbose", "--debug" ]
   end

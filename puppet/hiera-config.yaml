@@ -1,7 +1,7 @@
 ---
 :backends: yaml
 :yaml:
-  :datadir: "%{settings::manifestdir}/configuration"
+  :datadir: "/puppet/environments/%{::environment}/manifests/configuration"
 :hierarchy:
   - "%{::clientcert}"
   - "%{::environment}"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 set -x
-cd /puppet
+cd /puppet/environments/development/
 [ Puppetfile -nt Puppetfile.lock ] && /usr/local/bin/librarian-puppet update
 exit 0
 

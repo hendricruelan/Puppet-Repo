@@ -1,0 +1,10 @@
+#!/bin/bash -ex
+while true
+do
+  inotifywait -e modify,close_write,move_self  *json | while read file event
+  do
+    id=`grep -w id $file | awk -F\" '{print $4}'`
+    echo $file $id
+    curl -X PUT -H 'Content-Type: application/json' zk1:8080/v2/apps/$id -d@$file
+  done
+done
