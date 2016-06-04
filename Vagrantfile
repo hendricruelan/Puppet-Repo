@@ -1,10 +1,33 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+def validate_plugins()
+  required_plugins = [
+    'vagrant-cachier',
+    'vagrant-hostmanager',
+  ]
+  missing = []
+
+  required_plugins.each do |plugin|
+    unless Vagrant.has_plugin?(plugin)
+      missing << "'#{plugin}' plugin required. Install it with \n\n\tvagrant plugin install #{plugin}"
+    end
+  end
+
+  unless missing.empty?
+    missing.each{ |x| STDERR.puts x }
+    return false
+  end
+
+  return true
+end
+
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  validate_plugins || exit(1)
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
