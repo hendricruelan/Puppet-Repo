@@ -1,0 +1,30 @@
+zk1:
+  ip: 192.168.56.101
+  cpus: 1
+  memory: 1024
+  type: master
+zk2:
+  ip: 192.168.56.102
+  cpus: 1
+  memory: 1024
+  type: master
+zk3:
+  ip: 192.168.56.103
+  cpus: 1
+  memory: 1024
+  type: master
+ctl1:
+  ip: 192.168.56.111
+  cpus: 2
+  memory: 3328
+  type: cattle
+ctl2:
+  ip: 192.168.56.112
+  cpus: 2
+  memory: 3328
+  type: cattle
+ctl3:
+  ip: 192.168.56.113
+  cpus: 2
+  memory: 3328
+  type: cattle

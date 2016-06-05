@@ -14,27 +14,27 @@ node /^zk/ {
     }
   }
 
-  host { 'zk1.csw.vm':
+  host { 'zk1.vm':
     ip           => '192.168.56.101',
     host_aliases => 'zk1',
   }
-  host { 'zk2.csw.vm':
+  host { 'zk2.vm':
     ip           => '192.168.56.102',
     host_aliases => 'zk2',
   }
-  host { 'zk3.csw.vm':
+  host { 'zk3.vm':
     ip           => '192.168.56.103',
     host_aliases => 'zk3',
   }
-  host { 'ctl1.csw.vm':
+  host { 'ctl1.vm':
     ip           => '192.168.56.111',
     host_aliases => 'ctl1',
   }
-  host { 'ctl2.csw.vm':
+  host { 'ctl2.vm':
     ip           => '192.168.56.112',
     host_aliases => 'ctl2',
   }
-  host { 'ctl3.csw.vm':
+  host { 'ctl3.vm':
     ip           => '192.168.56.113',
     host_aliases => 'ctl3',
   }
@@ -51,7 +51,7 @@ node /^zk/ {
     }
   }
   class { 'mesos':
-    zookeeper => [ 'zk1.csw.vm', 'zk2.csw.vm', 'zk3.csw.vm' ],
+    zookeeper => [ 'zk1.vm', 'zk2.vm', 'zk3.vm' ],
   }
   class { 'mesos::master':
     work_dir => '/var/lib/mesos',
@@ -66,8 +66,8 @@ node /^zk/ {
     manage_user     => true,
     user            => 'root',
     options         => {
-      master => 'zk://zk1.csw.vm:2181,zk2.csw.vm:2181,zk3.csw.vm:2181/mesos',
-      zk     => 'zk://zk1.csw.vm:2181,zk2.csw.vm:2181,zk3.csw.vm:2181/marathon',
+      master => 'zk://zk1.vm:2181,zk2.vm:2181,zk3.vm:2181/mesos',
+      zk     => 'zk://zk1.vm:2181,zk2.vm:2181,zk3.vm:2181/marathon',
     },
   }
   class { 'docker':
@@ -94,7 +94,7 @@ node /^ctl/ {
   }
   class { 'mesos':
     repo => 'mesosphere',
-    zookeeper => [ 'zk1.csw.vm', 'zk2.csw.vm', 'zk3.csw.vm' ],
+    zookeeper => [ 'zk1.vm', 'zk2.vm', 'zk3.vm' ],
   }
   #  firewall { '100 allow mesos-slave access':
   #    dport   => [ 8080, 5050, 5051, 2181, 2888, 3888 ],
