@@ -68,26 +68,6 @@ end
 ## Plugin Validation
 ##############################################
 
-def validate_plugins()
-  required_plugins = [
-    'vagrant-hostmanager',
-  ]
-  missing_plugins = []
-
-  required_plugins.each do |plugin|
-    unless Vagrant.has_plugin?(plugin)
-      missing_plugins << "The '#{plugin}' plugin is required. Install it with 'vagrant plugin install #{plugin}'"
-    end
-  end
-
-  unless missing_plugins.empty?
-    missing_plugins.each{ |x| STDERR.puts x }
-    return false
-  end
-
-  return true
-end
-
 def validate_machine_types(machine_types)
   STDERR.puts "machine types:"
   machine_types.each do |name, machine_type|
@@ -175,7 +155,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       # Every Vagrant virtual environment requires a box to build off of.
       config.vm.box = "centos-7-2-x64-virtualbox"
-      config.vm.box_url = "https://www.dropbox.com/s/tmhnmklvrpp8ex9/centos-7-2-x64-virtualbox.box?dl=0"
+      config.vm.box_url = "https://www.dropbox.com/s/tmhnmklvrpp8ex9/centos-7-2-x64-virtualbox.box?dl=1"
 
       # Use puppet provisioning:
       config.vm.synced_folder "puppet", "/puppet"
