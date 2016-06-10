@@ -20,6 +20,11 @@ When provisioning completes, open you browser to http://zk1.vm:5050/#/ to access
 Create
 ======
 Run the script `httpdServer.post` to create two http servers in your marathon instance, feel free to destroy them too. See https://docs.mesosphere.com/usage/tutorials/docker-app/ for other examples.
+You can see the created marathon data at http://zk1.vm:8080/#apps/%2Fbridged-webapp and access the served content at http://ctl1.vm:10000/ (for example). 
+
+TODO
+====
+Add the marathon-lb service instead of marathon. This provides an instance of the HAProxy front end and automatic redirection to running instance(s) of a service.
 
 Hack on Puppet
 ==============
