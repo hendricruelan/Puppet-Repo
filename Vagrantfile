@@ -186,5 +186,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # puppet.options = [ "--verbose", "--debug" ]
   end
 
+  # rerun to make sure rpmnew files are removed
+  config.vm.provision :puppet do |puppet|
+    puppet.environment_path = "./puppet/environments"
+    puppet.environment = "development"
+    puppet.hiera_config_path    = "puppet/hiera-config.yaml"
+    puppet.working_directory = "/tmp/vagrant-puppet"
+    puppet.options = "--verbose"
+    # puppet.options = [ "--verbose", "--debug" ]
+  end
 
 end

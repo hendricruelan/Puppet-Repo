@@ -54,7 +54,6 @@ node /^zk/ {
     zookeeper => [ 'zk1.vm', 'zk2.vm', 'zk3.vm' ],
   }
   class { 'mesos::master':
-    work_dir => '/var/lib/mesos',
     options => {
       quorum   => 2
     }
@@ -111,6 +110,7 @@ node /^ctl/ {
     resources => {
       'ports' => '[10000-65535]'
     },
+    work_dir => '/tmp/mesos',
     options   => {
       'isolation'      => 'cgroups/cpu,cgroups/mem',
       'containerizers' => 'docker,mesos',
