@@ -110,7 +110,7 @@ node /^ctl/ {
     resources => {
       'ports' => '[10000-65535]'
     },
-    work_dir => '/tmp/mesos',
+    work_dir => "/var/lib/mesos\n",
     options   => {
       'isolation'      => 'cgroups/cpu,cgroups/mem',
       'containerizers' => 'docker,mesos',
